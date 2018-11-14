@@ -4,6 +4,8 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 
 public enum DaoFactory {
 	
@@ -47,5 +49,16 @@ public enum DaoFactory {
 		return testDao;
 	}
 	
+	private JdbcTemplate getJdbcTemplate() {
+		if (jdbcTemplate == null) {
+			MysqlDataSource dataSource = new MysqlDataSource();
+			dataSource.setUser("registracia_itat");
+			dataSource.setPassword("paz1c");
+//			dataSource.setDatabaseName("registracia_itat");
+			dataSource.setUrl("jdbc:mysql://localhost/registracia_itat?serverTimezone=Europe/Bratislava");
+			jdbcTemplate = new JdbcTemplate(dataSource);
+		}
+		return jdbcTemplate;
+	}
 	
 }

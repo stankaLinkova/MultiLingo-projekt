@@ -13,4 +13,6 @@ public interface SchoolDao {
 	
 	void save(School school);
 	
+	void delete(long id);
+	
 }
