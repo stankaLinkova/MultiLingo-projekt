@@ -20,42 +20,41 @@ public enum DaoFactory {
 	
 	public CourseDao getCourseDao() {
 		if (courseDao == null)
-			courseDao = new MysqlCourseDao();
+			courseDao = new MysqlCourseDao(getJdbcTemplate());
 		return courseDao;
 	}
 	
 	public SchoolDao getSchoolDao() {
 		if (schoolDao == null)
-			schoolDao = new MysqlSchoolDao();
+			schoolDao = new MysqlSchoolDao(getJdbcTemplate());
 		return schoolDao;
 	}
 	
 	public QuestionDao getQuestionDao() {
 		if (questionDao == null)
-			questionDao = new MysqlQuestionDao();
+			questionDao = new MysqlQuestionDao(getJdbcTemplate());
 		return questionDao;
 	}
 	
 	public StudentDao getStudentDao() {
 		if (studentDao == null)
-			studentDao = new MysqlStudentDao();
+			studentDao = new MysqlStudentDao(getJdbcTemplate());
 		return studentDao;
 	}
 	
 	
 	public TestDao getTestDao() {
 		if (testDao == null)
-			testDao = new MysqlTestDao();
+			testDao = new MysqlTestDao(getJdbcTemplate());
 		return testDao;
 	}
 	
 	private JdbcTemplate getJdbcTemplate() {
 		if (jdbcTemplate == null) {
 			MysqlDataSource dataSource = new MysqlDataSource();
-			dataSource.setUser("registracia_itat");
-			dataSource.setPassword("paz1c");
-//			dataSource.setDatabaseName("registracia_itat");
-			dataSource.setUrl("jdbc:mysql://localhost/registracia_itat?serverTimezone=Europe/Bratislava");
+			dataSource.setUser("MultiLingo_projekt");
+			dataSource.setPassword("multiLingo1");
+			dataSource.setUrl("jdbc:mysql://localhost/multilingo_db?serverTimezone=Europe/Bratislava");
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		return jdbcTemplate;

@@ -12,8 +12,16 @@ public class Test {
 	private double averageResult;
 	private int nubmerOfRatings;
 	private String information;
+	private Long idSchool;
 	
 	
+	public Long getIdSchool() {
+		return idSchool;
+	}
+
+	public void setIdSchool(Long idSchool) {
+		this.idSchool = idSchool;
+	}
 
 	public Long getId() {
 		return id;

@@ -16,16 +16,15 @@ public class MysqlQuestionDao implements QuestionDao {
 
 	private JdbcTemplate jdbcTemplate;
 
-	// public MysqlWorkshopDao(JdbcTemplate jdbcTemplate) {
-	// this.jdbcTemplate = jdbcTemplate;
-	// }
+	public MysqlQuestionDao(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	public List<Question> getAll() {
 
 		String sql = "SELECT idQuestion, task, right_answer, wrong_answer_1, wrong_answer_2, wrong_answer_3, "
 				+ "wrong_answer_4, Test_idTest " + "FROM Question";
-		// return jdbcTemplate.query(sql, new
-		// BeanPropertyRowMapper<>(WorkShop.class));
+		
 		return jdbcTemplate.query(sql, new RowMapper<Question>() {
 
 			public Question mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -12,23 +12,23 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import MultiLingo_projekt.entity.Course;
+import MultiLingo_projekt.entity.Student;
 
 
 
 public class MysqlCourseDao implements CourseDao {
-
-//public MysqlWorkshopDao(JdbcTemplate jdbcTemplate) {
-//this.jdbcTemplate = jdbcTemplate;
-//}
-
 	
 	private JdbcTemplate jdbcTemplate;
+
+	public MysqlCourseDao(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
 
 	public List<Course> getAll() {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
 				+ "time_of_lecture, information, School_id_School "
 			+ "FROM Course";
-//		return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WorkShop.class));
+
 		return jdbcTemplate.query(sql, new RowMapper<Course>() {
 
 				public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -97,6 +97,11 @@ public class MysqlCourseDao implements CourseDao {
 		String sql = "DELETE FROM Course WHERE id = " + id;
 		jdbcTemplate.update(sql);
 		
+	}
+
+	public List<Student> getStudentsTakenTheCourse(long idCourse) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

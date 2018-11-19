@@ -3,16 +3,20 @@ package MultiLingo_projekt.persistant;
 import java.util.List;
 
 import MultiLingo_projekt.entity.School;
-
+import MultiLingo_projekt.entity.Test;
 
 public interface SchoolDao {
 
-	void add(School school);
+	School save(School school);
 
-	List<School> getAll();
-	
-	void save(School school);
-	
 	void delete(long id);
+
+	List<School> getAllMyCourses();
 	
+	List<Test> getAllMyTests();
+
+	Boolean isRegistrated(String login);
+
+	Boolean correctPassword(String passsword);
+
 }

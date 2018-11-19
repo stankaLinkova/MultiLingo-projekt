@@ -5,7 +5,7 @@ public class School {
 	private Long id;
 	private String name;
 	private String address;
-	private String phoneNumber;
+	private String email;
 	private String login;
 	private String password;
 
@@ -35,12 +35,12 @@ public class School {
 		this.address = address;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getLogin() {
@@ -60,6 +60,6 @@ public class School {
 	}
 	@Override
 	public String toString() {
-		return "Name: " + name + ", Address: " + address+", Phone number: " + phoneNumber;
+		return "Name: " + name + ", Address: " + address+", E-mail: " + email;
 	}
 }

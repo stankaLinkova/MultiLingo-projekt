@@ -2,14 +2,23 @@ package MultiLingo_projekt.persistant;
 
 import java.util.List;
 
+import MultiLingo_projekt.entity.Course;
 import MultiLingo_projekt.entity.Student;
+import MultiLingo_projekt.entity.Test;
 
 
 public interface StudentDao {
 
-	void add(Student student);
+	Student save(Student student);
 
-	List<Student> getAll();
+	void delete(long id);
+
+	List<Test> getCompletedTests(long idStudent);
+
+	List<Course> getMyCourses(long idStudent);
 	
-	void save(Student student);
+	void joinTheCourse(long idCourse);
+
+	Boolean isRegistrated(String login);
+
 }
