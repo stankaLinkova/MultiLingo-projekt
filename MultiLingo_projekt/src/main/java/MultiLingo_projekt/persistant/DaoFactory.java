@@ -54,7 +54,7 @@ public enum DaoFactory {
 			MysqlDataSource dataSource = new MysqlDataSource();
 			dataSource.setUser("MultiLingo_projekt");
 			dataSource.setPassword("multiLingo1");
-			dataSource.setUrl("jdbc:mysql://localhost/multilingo_db?serverTimezone=Europe/Bratislava");
+			dataSource.setUrl("jdbc:mysql://localhost/multilingo_project?serverTimezone=Europe/Bratislava");
 			jdbcTemplate = new JdbcTemplate(dataSource);
 		}
 		return jdbcTemplate;
