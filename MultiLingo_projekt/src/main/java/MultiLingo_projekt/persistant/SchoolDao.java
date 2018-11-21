@@ -16,8 +16,4 @@ public interface SchoolDao {
 	
 	List<Test> getAllMyTests(long idSchool);
 
-	Boolean isRegistrated(String login);
-
-	Boolean correctPassword(String passsword);
-
 }

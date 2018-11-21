@@ -2,8 +2,10 @@ package MultiLingo_projekt.persistant;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.List;
-
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import MultiLingo_projekt.entity.Course;
@@ -11,7 +13,26 @@ import MultiLingo_projekt.entity.Course;
 class MysqlCourseDaoTest {
 
 	private CourseDao courseDao = DaoFactory.INSTANCE.getCourseDao();
+	private Course course = new Course();
+	private long id;
 	
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+		
+	}
+
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+	}
+
+	@BeforeEach
+	void setUp() throws Exception {
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+
 	@Test
 	void testGetAll() {
 		assertTrue(courseDao.getAll().size() == 0);
@@ -19,8 +40,6 @@ class MysqlCourseDaoTest {
 
 	@Test
 	void testSave() {
-		Course course = new Course();
-		
 		int beforeSave = courseDao.getAll().size();
 		courseDao.save(course);
 		int afterSave = courseDao.getAll().size();
@@ -29,7 +48,10 @@ class MysqlCourseDaoTest {
 
 	@Test
 	void testDelete() {
-		fail("Not yet implemented");
+		int beforeDelete = courseDao.getAll().size();
+		courseDao.delete(id);
+		int afterDelete = courseDao.getAll().size();
+		assertTrue(beforeDelete == afterDelete + 1);
 	}
 
 	@Test

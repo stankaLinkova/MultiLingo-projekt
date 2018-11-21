@@ -31,20 +31,18 @@ public class MysqlStudentDao implements StudentDao {
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("Student");
 			simpleJdbcInsert.usingGeneratedKeyColumns("idStudent");
-			simpleJdbcInsert.usingColumns("name", "surname", "e-mail", "login", "password");
+			simpleJdbcInsert.usingColumns("name", "surname", "e-mail");
 			Map<String, Object> values = new HashMap<String, Object>();
 			values.put("name", student.getName());
 			values.put("surname", student.getSurname());
 			values.put("e-mail", student.getEmail());
-			values.put("login", student.getLogin());
-			values.put("password", student.getPassword());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			student.setId(id);
 		} else {
-			String sql = "UPDATE Student SET " + "name = ?, surname = ?, e-mail = ?, login = ?, " + "password = ? "
+			String sql = "UPDATE Student SET " + "name = ?, surname = ?, e-mail = ? "
 					+ "WHERE idStudent = ?";
-			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(), student.getLogin(),
-					student.getPassword(), student.getId());
+			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(),
+					 student.getId());
 		}
 		return student;
 	}
@@ -95,24 +93,20 @@ public class MysqlStudentDao implements StudentDao {
 		return jdbcTemplate.query(sql, new Object[] { idStudent }, new RowMapper<Object[]>() {
 
 			public Object[] mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Object[] hodnoty = new Object[4];
-				hodnoty[0] = rs.getTimestamp("sht.taken").toLocalDateTime().toLocalDate();
-				hodnoty[1] = rs.getInt("sht.result");
-				hodnoty[2] = rs.getString("t.language");
-				hodnoty[3] = rs.getString("t.level");
+				Object[] values = new Object[4];
+				values[0] = rs.getTimestamp("sht.taken").toLocalDateTime().toLocalDate();
+				values[1] = rs.getInt("sht.result");
+				values[2] = rs.getString("t.language");
+				values[3] = rs.getString("t.level");
 
-				return hodnoty;
+				return values;
 			}
 
 		});
 
 	}
 
-	public Boolean isRegistrated(String login) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	public void joinTheCourse(Student student, Course course) {
 		String sql = "INSERT INTO Course_has_Student (Course_idCourse, Student_idStudent) VALUES (?,?)";
 		Object[] parameters = new Object[] { course.getId(), student.getId() };

@@ -19,7 +19,6 @@ public interface StudentDao {
 	List<Course> getMyCourses(long idStudent);
 	
 	void joinTheCourse(Student student, Course course);
-
-	Boolean isRegistrated(String login);
-
+ 
+	
 }

@@ -32,24 +32,19 @@ public class MysqlSchoolDao implements SchoolDao {
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("School");
 			simpleJdbcInsert.usingGeneratedKeyColumns("idSchool");
-			simpleJdbcInsert.usingColumns("Name", "Address", "Email", "login",
-					"password");
+			simpleJdbcInsert.usingColumns("Name", "Address", "Email");
 			Map<String,Object> values = new HashMap<String, Object>();
 			values.put("Name",school.getName());
 			values.put("Address",school.getAddress());
 			values.put("Email", school.getEmail());
-			values.put("Login", school.getLogin());
-			values.put("Password", school.getPassword());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			school.setId(id);
 		} else { 
 			String sql = "UPDATE School SET "
-					+ "Name = ?, Address = ?, Email = ?, login = ?, "
-					+ "password = ? "
+					+ "Name = ?, Address = ?, Email = ? "
 					+ "WHERE idSchool = ?";
 			jdbcTemplate.update(sql,school.getName(),school.getAddress(),
-					school.getEmail(), school.getLogin(),
-					school.getPassword(),school.getId());
+					school.getEmail(), school.getId());
 		}
 		return school;
 	}
@@ -123,19 +118,6 @@ public class MysqlSchoolDao implements SchoolDao {
 			}
 		});
 	}
-
-
-	public Boolean isRegistrated(String login) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public Boolean correctPassword(String passsword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 
 }
