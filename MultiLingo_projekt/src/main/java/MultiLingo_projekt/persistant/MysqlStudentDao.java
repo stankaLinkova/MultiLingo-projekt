@@ -93,9 +93,28 @@ public class MysqlStudentDao implements StudentDao {
 		});
 	}
 
-	public List<Test> getCompletedTests(long idStudent) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Object[]> getCompletedTests(long idStudent) {
+		String sql = "SELECT sht.taken, sht.result, t.language, t.level "
+				+ "FROM Student_has_Test as sht "
+				+ "JOIN Test as t ON t.idTest = sht.Test_idTest "
+				+ "WHERE sht.Student_idStudent = ? ";
+		return jdbcTemplate.query(sql, new Object[] {idStudent}, new RowMapper<Object[]>() {
+
+			public Object[] mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Object[] hodnoty = new Object[4];
+				hodnoty[0] = rs.getTimestamp("sht.taken").toLocalDateTime().toLocalDate();
+				hodnoty[1] = rs.getInt("sht.result");
+				hodnoty[2] = rs.getString("t.language");
+				hodnoty[3] = rs.getString("t.level");
+						
+				return hodnoty;
+			}
+			
+		});
+		
+		 
+			
+		
 	}
 
 	public Boolean isRegistrated(String login) {

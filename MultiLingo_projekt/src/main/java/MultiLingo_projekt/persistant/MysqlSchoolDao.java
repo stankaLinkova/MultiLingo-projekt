@@ -1,12 +1,17 @@
 package MultiLingo_projekt.persistant;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
+import MultiLingo_projekt.entity.Course;
 import MultiLingo_projekt.entity.School;
 import MultiLingo_projekt.entity.Test;
 
@@ -58,15 +63,65 @@ public class MysqlSchoolDao implements SchoolDao {
 	}
 
 
-	public List<School> getAllMyCourses() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Course> getAllMyCourses(long idSchool) {
+		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
+				+ "time_of_lecture, information, School_id_School "
+				+ "FROM Course WHERE  School_id_School = ?)";
+
+		return jdbcTemplate.query(sql, new Object[]{idSchool}, new RowMapper<Course>() {
+
+			public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Course course = new Course();
+				course.setId(rs.getLong("idCourse"));
+				course.setLanguageTaught(rs.getString("tanguage_tought"));
+				course.setTaughtIn(rs.getString("taught_in"));
+				course.setLevel(rs.getString("level"));
+
+				Timestamp timestamp = rs.getTimestamp("start_of_course");
+				if (timestamp != null) {
+					course.setStartOfCourse(timestamp.toLocalDateTime().toLocalDate());
+				}
+
+				timestamp = rs.getTimestamp("end_of_course");
+				if (timestamp != null) {
+					course.setEndOfCourse(timestamp.toLocalDateTime().toLocalDate());
+				}
+
+				course.setTimeOfLectures(rs.getString("time_of_lecture"));
+				course.setInformation(rs.getString("information"));
+				course.setSchoolId(rs.getLong("School_idSchool"));
+				return course;
+
+			}
+		});
 	}
 
 
-	public List<Test> getAllMyTests() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Test> getAllMyTests(long idSchool) {
+		String sql = "SELECT idTest, created_by, created_date, "
+				+ "number_of_questions, language, level, "
+				+ "information, School_idSchool FROM Test "
+				+ "WHERE School_idSchool= ? ";
+		return jdbcTemplate.query(sql, new Object[]{idSchool}, new RowMapper<Test>() {
+
+			public Test mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Test test = new Test();
+				test.setId(rs.getLong("idTest"));
+				test.setCreatedBy(rs.getString("created_by"));
+				
+				Timestamp timestamp = rs.getTimestamp("created_date");
+				if (timestamp != null) {
+					test.setCreatedDate(timestamp.toLocalDateTime().toLocalDate());
+				}
+
+				test.setNumberOfQuestions(rs.getInt("number_of_questions"));
+				test.setLanguage(rs.getString("language"));
+				test.setLevel(rs.getString("level"));
+				test.setIdSchool(rs.getLong("School_idSchool"));
+				return test;
+
+			}
+		});
 	}
 
 

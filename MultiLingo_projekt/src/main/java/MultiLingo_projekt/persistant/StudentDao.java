@@ -13,7 +13,7 @@ public interface StudentDao {
 
 	void delete(long id);
 
-	List<Test> getCompletedTests(long idStudent);
+	List<Object[]> getCompletedTests(long idStudent);
 
 	List<Course> getMyCourses(long idStudent);
 	

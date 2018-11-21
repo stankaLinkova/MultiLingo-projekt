@@ -8,9 +8,8 @@ public class Test {
 	private String createdBy;
 	private LocalDate createdDate;
 	private int numberOfQuestions;
-	private double rating;
-	private double averageResult;
-	private int nubmerOfRatings;
+	private String language;
+	private String level;
 	private String information;
 	private Long idSchool;
 	
@@ -55,28 +54,20 @@ public class Test {
 		this.numberOfQuestions = numberOfQuestions;
 	}
 
-	public double getRating() {
-		return rating;
+	public String getLanguage() {
+		return language;
 	}
 
-	public void setRating(double rating) {
-		this.rating = rating;
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
-	public double getAverageResult() {
-		return averageResult;
+	public String getLevel() {
+		return level;
 	}
 
-	public void setAverageResult(double averageResult) {
-		this.averageResult = averageResult;
-	}
-
-	public int getNubmerOfRatings() {
-		return nubmerOfRatings;
-	}
-
-	public void setNubmerOfRatings(int nubmerOfRatings) {
-		this.nubmerOfRatings = nubmerOfRatings;
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 	public String getInformation() {
@@ -90,8 +81,8 @@ public class Test {
 	@Override
 	public String toString() {
 		return "Created by: " + createdBy + ", Date of creation: " + createdDate + ", Number of questions: "
-				+ numberOfQuestions + ", Rating: " + rating + ", Average result: " + averageResult + ", Nubmer of ratings: "
-				+ nubmerOfRatings + ", Information: " + information;
+				+ numberOfQuestions + ", Language: " + language + ", Level: " + level 
+			    + " Information: " + information;
 	}
 
 }

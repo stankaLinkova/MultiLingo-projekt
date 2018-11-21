@@ -99,8 +99,10 @@ public class MysqlCourseDao implements CourseDao {
 		
 	}
 
-	public List<Student> getStudentsTakenTheCourse(long idCourse) {
-		// TODO Auto-generated method stub
+	public List<Student> getStudentsTakenTheCourse(long idStudent) {
+		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
+				+ "time_of_lecture, information, School_id_School "
+			+ "FROM Course";
 		return null;
 	}
 
