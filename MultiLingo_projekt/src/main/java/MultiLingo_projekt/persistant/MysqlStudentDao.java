@@ -3,6 +3,7 @@ package MultiLingo_projekt.persistant;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,10 @@ import MultiLingo_projekt.entity.Course;
 import MultiLingo_projekt.entity.Student;
 import MultiLingo_projekt.entity.Test;
 
-
 public class MysqlStudentDao implements StudentDao {
 
 	private JdbcTemplate jdbcTemplate;
+
 	public MysqlStudentDao(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -26,28 +27,23 @@ public class MysqlStudentDao implements StudentDao {
 	public Student save(Student student) {
 		if (student == null)
 			return null;
-		if (student.getId() == null) { 
+		if (student.getId() == null) {
 			SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 			simpleJdbcInsert.withTableName("Student");
 			simpleJdbcInsert.usingGeneratedKeyColumns("idStudent");
-			simpleJdbcInsert.usingColumns("name", "surname", "e-mail", "login",
-					"password");
-			Map<String,Object> values = new HashMap<String, Object>();
-			values.put("name",student.getName());
+			simpleJdbcInsert.usingColumns("name", "surname", "e-mail", "login", "password");
+			Map<String, Object> values = new HashMap<String, Object>();
+			values.put("name", student.getName());
 			values.put("surname", student.getSurname());
 			values.put("e-mail", student.getEmail());
 			values.put("login", student.getLogin());
 			values.put("password", student.getPassword());
 			Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
 			student.setId(id);
-		} else { 
-			String sql = "UPDATE Student SET "
-					+ "name = ?, surname = ?, e-mail = ?, login = ?, "
-					+ "password = ? "
+		} else {
+			String sql = "UPDATE Student SET " + "name = ?, surname = ?, e-mail = ?, login = ?, " + "password = ? "
 					+ "WHERE idStudent = ?";
-			jdbcTemplate.update(sql,
-					student.getName(), student.getSurname(),
-					student.getEmail(), student.getLogin(),
+			jdbcTemplate.update(sql, student.getName(), student.getSurname(), student.getEmail(), student.getLogin(),
 					student.getPassword(), student.getId());
 		}
 		return student;
@@ -56,16 +52,16 @@ public class MysqlStudentDao implements StudentDao {
 	public void delete(long id) {
 		String sql = "DELETE FROM Student WHERE id = " + id;
 		jdbcTemplate.update(sql);
-		
+
 	}
-	
+
 	public List<Course> getMyCourses(long idStudent) {
 		String sql = "SELECT idCourse, language_taught, taught_in, level, start_of_course, end_of_course, "
 				+ "time_of_lecture, information, School_id_School "
 				+ "FROM Course WHERE Course_idCourse IN (SELECT Course_idCourse FROM Course_has_Student "
 				+ "WHERE Student_idStudent = ?)";
 
-		return jdbcTemplate.query(sql, new Object[]{idStudent}, new RowMapper<Course>() {
+		return jdbcTemplate.query(sql, new Object[] { idStudent }, new RowMapper<Course>() {
 
 			public Course mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Course course = new Course();
@@ -94,11 +90,9 @@ public class MysqlStudentDao implements StudentDao {
 	}
 
 	public List<Object[]> getCompletedTests(long idStudent) {
-		String sql = "SELECT sht.taken, sht.result, t.language, t.level "
-				+ "FROM Student_has_Test as sht "
-				+ "JOIN Test as t ON t.idTest = sht.Test_idTest "
-				+ "WHERE sht.Student_idStudent = ? ";
-		return jdbcTemplate.query(sql, new Object[] {idStudent}, new RowMapper<Object[]>() {
+		String sql = "SELECT sht.taken, sht.result, t.language, t.level " + "FROM Student_has_Test as sht "
+				+ "JOIN Test as t ON t.idTest = sht.Test_idTest " + "WHERE sht.Student_idStudent = ? ";
+		return jdbcTemplate.query(sql, new Object[] { idStudent }, new RowMapper<Object[]>() {
 
 			public Object[] mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Object[] hodnoty = new Object[4];
@@ -106,15 +100,12 @@ public class MysqlStudentDao implements StudentDao {
 				hodnoty[1] = rs.getInt("sht.result");
 				hodnoty[2] = rs.getString("t.language");
 				hodnoty[3] = rs.getString("t.level");
-						
+
 				return hodnoty;
 			}
-			
+
 		});
-		
-		 
-			
-		
+
 	}
 
 	public Boolean isRegistrated(String login) {
@@ -122,9 +113,11 @@ public class MysqlStudentDao implements StudentDao {
 		return null;
 	}
 
-	public void joinTheCourse(long idCourse) {
-		// TODO Auto-generated method stub
-		
+	public void joinTheCourse(Student student, Course course) {
+		String sql = "INSERT INTO Course_has_Student (Course_idCourse, Student_idStudent) VALUES (?,?)";
+		Object[] parameters = new Object[] { course.getId(), student.getId() };
+		int[] types = new int[] { Types.INTEGER, Types.INTEGER };
+		jdbcTemplate.update(sql, parameters, types);
 	}
 
 
