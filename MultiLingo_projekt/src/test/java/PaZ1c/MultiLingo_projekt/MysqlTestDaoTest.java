@@ -1,4 +1,4 @@
-package MultiLingo_projekt.persistant;
+package PaZ1c.MultiLingo_projekt;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import MultiLingo_projekt.entity.Test;
+import MultiLingo_projekt.persistant.DaoFactory;
+import MultiLingo_projekt.persistant.TestDao;
 
 class MysqlTestDaoTest {
 	
